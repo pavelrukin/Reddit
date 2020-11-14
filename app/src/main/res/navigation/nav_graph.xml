@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.pavelrukin.reddit.MainFragment"
+        android:name="com.pavelrukin.reddit.ui.main.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/main_fragment" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/imageFragment"
-        android:name="com.pavelrukin.reddit.ImageFragment"
+        android:name="com.pavelrukin.reddit.ui.image.ImageFragment"
         android:label="fragment_image"
         tools:layout="@layout/image_fragment" />
 </navigation>
