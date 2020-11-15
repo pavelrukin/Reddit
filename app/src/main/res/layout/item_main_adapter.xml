@@ -55,19 +55,6 @@
             app:layout_constraintTop_toTopOf="@+id/iv_icon_comment"
             tools:text="2177" />
 
-        <TextView
-            android:id="@+id/tv_created_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="hours ago"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_created"
-            app:layout_constraintStart_toEndOf="@+id/tv_created"
-            app:layout_constraintTop_toTopOf="@+id/tv_created"
-            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_created"
