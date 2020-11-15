@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pavelrukin.reddit.R
 import com.pavelrukin.reddit.model.TopPostResponse
 import com.pavelrukin.reddit.utils.DiffUtilCallBack
+
+import com.pavelrukin.reddit.utils.extensions.timeAgo
 import kotlinx.android.synthetic.main.item_main_adapter.view.*
 
 class RedditAdapter :
@@ -19,7 +21,6 @@ class RedditAdapter :
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_adapter, parent, false)
         return RedditViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: RedditViewHolder, position: Int) {
         getItem(position)?.let { holder.bindPost(it) }
     }
@@ -29,11 +30,12 @@ class RedditAdapter :
         private val commentsText: TextView = itemView.tv_num_comments
         private val createdText: TextView = itemView.tv_created
 
+
         fun bindPost(redditPost: TopPostResponse.DataTop.Children.DataTopItem) {
             with(redditPost) {
                 authorText.text = author
                 commentsText.text = numComments.toString()
-                createdText.text = created.toString()
+                createdText.text = timeAgo(created.toInt())
             }
         }
     }
