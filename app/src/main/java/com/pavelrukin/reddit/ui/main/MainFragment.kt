@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadType
+import androidx.recyclerview.widget.RecyclerView
 import com.pavelrukin.reddit.R
 import com.pavelrukin.reddit.databinding.MainFragmentBinding
 import com.pavelrukin.reddit.ui.adapter.RedditAdapter
@@ -54,6 +55,7 @@ class MainFragment : Fragment() {
     }
 
     fun initView() {
+        redditAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.rvMain.adapter = redditAdapter
         binding.rvMain.adapter = redditAdapter.withLoadStateHeaderAndFooter(
             header = RedditLoadingAdapter { redditAdapter.retry() },

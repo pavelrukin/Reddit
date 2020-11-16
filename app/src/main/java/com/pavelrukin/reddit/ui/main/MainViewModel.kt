@@ -21,6 +21,5 @@ class MainViewModel(val repository: RedditRepository) : ViewModel() {
         return repository.fetchPosts().cachedIn(viewModelScope)
     }
 
-    // val concertList: LiveData<PagedList<Concert>> =
-    //            concertDao.concertsByDate().toLiveData(pageSize = 50)
+
 }
