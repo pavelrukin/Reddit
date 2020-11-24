@@ -17,8 +17,6 @@ class RedditAdapter( val onThumbnailClickListener: (redditPost: TopPostResponse.
     PagingDataAdapter<TopPostResponse.DataTop.Children.DataTopItem, RedditAdapter.RedditViewHolder>(
         DiffUtilCallBack()
     ) {
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RedditViewHolder {
         val binding = ItemMainAdapterBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return RedditViewHolder(binding)
@@ -28,18 +26,14 @@ class RedditAdapter( val onThumbnailClickListener: (redditPost: TopPostResponse.
     }
 
    inner class RedditViewHolder(private val binding: ItemMainAdapterBinding) : RecyclerView.ViewHolder(binding.root) {
-
-
         fun bindPost(redditPost: TopPostResponse.DataTop.Children.DataTopItem) {
             with(redditPost) {
                 binding.apply {
-
                     tvAuthor.text = author
                     tvNumComments.text = numComments.toString()
                     tvCreated.text = timeAgo(created.toInt())
                     ivRedditThumb.setOnClickListener { onThumbnailClickListener(redditPost)}
                     Glide.with(root).asBitmap().load(thumbnail).error(R.drawable.ic_image_not_supported).into(ivRedditThumb)
-               //     Picasso.get().load(thumbnail).error(R.drawable.ic_image_not_supported).placeholder(R.drawable.ic_image_not_supported).into(ivRedditThumb)
                 }
             }
         }

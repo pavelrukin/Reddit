@@ -47,8 +47,6 @@ data class TopPostResponse(
                 var numComments: Int, // 2177
                 @SerializedName("url")
                 var url: String, // 2177
-
-
             ) : Parcelable
         }
     }

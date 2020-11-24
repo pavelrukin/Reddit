@@ -1,50 +1,42 @@
 package com.pavelrukin.reddit.utils
 
+import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
+import com.pavelrukin.reddit.utils.Constants.Companion.FOLDER_NAME
 import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStream
 
-class FileUtils (private val appContext: Context) {
-
-
-
-    fun saveImage(image: Bitmap,id: String): String? {
-        var savedImagePath: String? = null
-
-        val imageFileName = "$id.jpg"
-        // appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES) save image in data/app
-        val storageDir =
-            File("${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_PICTURES)}/RedditImage")
-        var success = true
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs()
+class FileUtils(private val appContext: Context) {
+    fun saveImage( bitmap: Bitmap, id: String) {
+        val filename = "$id.jpg"
+        val write: (OutputStream) -> Boolean = {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
         }
-        if (success) {
-            val imageFile = File(storageDir, imageFileName)
-            savedImagePath = imageFile.absolutePath
-
-            try {
-                val fOut = FileOutputStream(imageFile)
-                image.compress(Bitmap.CompressFormat.JPEG, 80, fOut)
-                fOut.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/$FOLDER_NAME")
             }
-            galleryAddPic(savedImagePath)
+            appContext.contentResolver.let {
+                it.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)?.let { uri ->
+                    it.openOutputStream(uri)?.let(write)
+                }
+            }
+        } else {
+            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + FOLDER_NAME
+            val file = File(imagesDir)
+            if (!file.exists()) {
+                file.mkdir()
+            }
+            val image = File(imagesDir, filename)
+            write(FileOutputStream(image))
         }
-        return savedImagePath
     }
 
-    private fun galleryAddPic(imagePath: String) {
-        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-        val f = File(imagePath)
-        val contentUri = Uri.fromFile(f)
-        mediaScanIntent.data = contentUri
-        appContext.sendBroadcast(mediaScanIntent)
-
-    }
 }
