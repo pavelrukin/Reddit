@@ -9,11 +9,11 @@ import com.pavelrukin.reddit.db.RedditDatabase
 import com.pavelrukin.reddit.model.TopPostResponse
 import kotlinx.coroutines.flow.Flow
 
-class RedditRepository(val redditService: RedditApi, val redditDatabase: RedditDatabase ) {
+class RedditRepository(val redditService: RedditApi, val redditDatabase: RedditDatabase ) :IRedditRepository{
 
 
     @OptIn(ExperimentalPagingApi::class)
-    fun fetchPosts(): Flow<PagingData<TopPostResponse.DataTop.Children.DataTopItem>> {
+    override suspend fun fetchPosts(): Flow<PagingData<TopPostResponse.DataTop.Children.DataTopItem>> {
         return Pager(
             PagingConfig(pageSize = 40, enablePlaceholders = false, prefetchDistance = 3),
 

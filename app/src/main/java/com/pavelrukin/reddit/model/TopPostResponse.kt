@@ -1,9 +1,11 @@
 package com.pavelrukin.reddit.model
 
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class TopPostResponse(
     @SerializedName("kind")
@@ -29,6 +31,7 @@ data class TopPostResponse(
             @SerializedName("data")
             var dataTopItem: DataTopItem
         ) {
+            @Parcelize
             @Entity(tableName = "redditPosts")
             data class DataTopItem(
                 @PrimaryKey
@@ -41,9 +44,12 @@ data class TopPostResponse(
                 @SerializedName("author")
                 var author: String, // ImInSpainButWithNo-S
                 @SerializedName("num_comments")
-                    var numComments: Int, // 2177
+                var numComments: Int, // 2177
+                @SerializedName("url")
+                var url: String, // 2177
 
-            )
+
+            ) : Parcelable
         }
     }
 }

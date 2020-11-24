@@ -18,5 +18,9 @@
         android:id="@+id/imageFragment"
         android:name="com.pavelrukin.reddit.ui.image.ImageFragment"
         android:label="fragment_image"
-        tools:layout="@layout/image_fragment" />
+        tools:layout="@layout/image_fragment" >
+        <argument
+            android:name="thumb"
+            app:argType="com.pavelrukin.reddit.model.TopPostResponse$DataTop$Children$DataTopItem" />
+    </fragment>
 </navigation>

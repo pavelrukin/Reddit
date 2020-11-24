@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadType
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pavelrukin.reddit.R
 import com.pavelrukin.reddit.databinding.MainFragmentBinding
+import com.pavelrukin.reddit.model.TopPostResponse
 import com.pavelrukin.reddit.ui.adapter.RedditAdapter
 import com.pavelrukin.reddit.ui.adapter.RedditLoadingAdapter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,7 +22,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
     private lateinit var binding: MainFragmentBinding
-    var redditAdapter: RedditAdapter = RedditAdapter()
+    var redditAdapter: RedditAdapter = RedditAdapter(::onThumbnailClickListener)
+
+
 
 
     val viewModel: MainViewModel by viewModel()
@@ -42,12 +44,19 @@ class MainFragment : Fragment() {
 
 
     }
+    private fun onThumbnailClickListener(dataTopItem: TopPostResponse.DataTop.Children.DataTopItem) {
+        val bundle = Bundle().apply {
+            putParcelable("thumb",dataTopItem)
+        }
+        findNavController().navigate(
+            R.id.action_mainFragment_to_imageFragment,
+            bundle
+        )
 
+    }
     private fun fetchPosts() {
         lifecycleScope.launch {
-
             viewModel.fetchPosts().collectLatest { pagingData ->
-
                 redditAdapter.submitData(pagingData)
             }
         }
